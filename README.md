@@ -36,6 +36,7 @@ Keep the ticket as unassigned for later follow-up.
 End Workflow – Ticket is created and tracked.
 
 ## 🛠 Tech Stack
+---
 1. n8n – Workflow automation
 2. Airtable / Google Sheets – Ticket & agent database
 3. Gmail / Outlook – For email notifications
@@ -45,13 +46,16 @@ End Workflow – Ticket is created and tracked.
 
 ## 🚀 How to Use
 
-Clone this workflow into your n8n instance.
-Create 2 database tables:
-Tickets (ticket_id, user_name, user_email, issue, assigned_agent, status)
-Agents (agent_name, email, availability)
-Connect credentials for your database and email.
-Deploy the workflow and embed the chat form on your site.
-Start receiving tickets automatically!
+---
+
+1. Clone this workflow into your n8n instance.
+2. Create 2 database tables:
+3. Tickets (ticket_id, user_name, user_email, issue, assigned_agent, status)
+4. Agents (agent_name, email, availability)
+5. Connect credentials for your database and email.
+6. Deploy the workflow and embed the chat form on your site.
+7. Start receiving tickets automatically!
+
 ---
 
 

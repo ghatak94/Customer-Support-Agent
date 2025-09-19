@@ -1,0 +1,871 @@
+{
+  "name": "Customer Support Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": false,
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -992,
+        -672
+      ],
+      "id": "1a373ee9-dd99-4d07-bda2-1f7fdd7d6406",
+      "name": "When chat message received",
+      "webhookId": "a79017d1-4fb6-48fb-b1f7-10a559aab34b"
+    },
+    {
+      "parameters": {
+        "message": "Please enter your full name:\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        -672
+      ],
+      "id": "cb4c65ee-2a82-4f9a-b289-ce1735a2abe0",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d098466-bec9-4a6c-907b-c6e7217c7611",
+              "name": "userName",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -544,
+        -672
+      ],
+      "id": "973eb585-9a5b-4569-8557-05d0a2260cf0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "message": "Please enter your email address:\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -672
+      ],
+      "id": "fc8ddcec-9083-40c2-8b57-5fd1ea39cb39",
+      "name": "Respond to Chat1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6abe642f-d144-4315-ba84-10881cf514a4",
+              "name": "userEmail",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -96,
+        -672
+      ],
+      "id": "33d5ff18-0d02-4c15-b31f-44a59af9c571",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "message": "Please describe your issue:\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -672
+      ],
+      "id": "b319a088-73ed-46d2-b87a-69dd172347c0",
+      "name": "Respond to Chat2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5fbc26d1-ff78-470a-adfe-87bc2708d179",
+              "name": "issueDescription",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "731ec9c9-2440-41ed-b8ba-58dc2ada81a1",
+              "name": "ticketId",
+              "value": "={{ $now.format(\"YYYYMMDDHHmmss\") }}",
+              "type": "string"
+            },
+            {
+              "id": "ce6c0284-50aa-4f9c-aa0f-f9d6f76b3260",
+              "name": "createdAt",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "d5b63aaa-1ab2-497c-9b2d-9e1769de6968",
+              "name": "status",
+              "value": "Open",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        -672
+      ],
+      "id": "10d76b48-b7d1-47a9-ad7a-8ff68931a7fd",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appXQC7Cxqzi5KgE8",
+          "mode": "list",
+          "cachedResultName": "Customer Issue Details",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblcIxS6wRJGn1n0U",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8/tblcIxS6wRJGn1n0U"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "User Name": "={{ $('Respond to Chat').item.json.chatInput }}",
+            "TicketId": "={{ $json.ticketId }}",
+            "CreatedAt": "={{ $json.createdAt }}",
+            "User Email": "={{ $('Respond to Chat1').item.json.chatInput }}",
+            "Issue Description": "={{ $json.issueDescription }}",
+            "Status": "Open"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User Name",
+              "displayName": "User Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "TicketId",
+              "displayName": "TicketId",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "CreatedAt",
+              "displayName": "CreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "User Email",
+              "displayName": "User Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Issue Description",
+              "displayName": "Issue Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Open",
+                  "value": "Open"
+                },
+                {
+                  "name": "Close",
+                  "value": "Close"
+                },
+                {
+                  "name": "Pending",
+                  "value": "Pending"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        576,
+        -672
+      ],
+      "id": "195b7fac-e945-4a69-90dc-a51c568395b9",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8uS9fUayxQTC74bB",
+          "name": "Airtable Personal Access Token account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appXQC7Cxqzi5KgE8",
+          "mode": "list",
+          "cachedResultName": "Customer Issue Details",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblCGCTgAkzdAepcq",
+          "mode": "list",
+          "cachedResultName": "Table 2",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8/tblCGCTgAkzdAepcq"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1024,
+        -672
+      ],
+      "id": "ea7ef207-d03b-4c72-9950-a76d5c774d90",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8uS9fUayxQTC74bB",
+          "name": "Airtable Personal Access Token account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e4c2e2f3-34ce-466b-bf49-de72ffbd26eb",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Available",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        -672
+      ],
+      "id": "e38f093e-6c01-4199-9964-bf0461df6998",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "079ec196-4a57-4e80-8850-c377db3f2853",
+              "name": "assignedTo",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1472,
+        -768
+      ],
+      "id": "604320ab-b11b-4aad-818e-58b4ee78b0a9",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appXQC7Cxqzi5KgE8",
+          "mode": "list",
+          "cachedResultName": "Customer Issue Details",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblCGCTgAkzdAepcq",
+          "mode": "list",
+          "cachedResultName": "Table 2",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8/tblCGCTgAkzdAepcq"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Not Available",
+            "id": "={{ $('Search records').item.json.id }}",
+            "Name": "={{ $json.assignedTo }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Available",
+                  "value": "Available"
+                },
+                {
+                  "name": "Not Available",
+                  "value": "Not Available"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1696,
+        -768
+      ],
+      "id": "71b66a64-6261-4856-a725-00f33ae6e03f",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8uS9fUayxQTC74bB",
+          "name": "Airtable Personal Access Token account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "=meghnaghatak2294@gmail.com",
+        "subject": "New Support Ticket Assigned",
+        "emailType": "text",
+        "message": "=Hello Agent1,  A new ticket has been assigned to you.  \nTicket ID: {{ $('Create a record').item.json.fields.TicketId }}\nUser: {{ $('Create a record').item.json.fields['User Name'] }}\nEmail: {{ $('Create a record').item.json.fields['User Email'] }}\nIssue: {{ $('Create a record').item.json.fields['Issue Description'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1920,
+        -768
+      ],
+      "id": "f38fdb4d-2181-466a-953c-8c875e0282e5",
+      "name": "Send a message",
+      "webhookId": "098cda53-d24f-48c9-926a-c03979c0dcf5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1zJcHfOminKNxyVR",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "message": "=Thank you, {{ $('Create a record').item.json.fields['User Name'] }}. Your ticket has been created and assigned to our support agent. We'll contact you shortly.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        2144,
+        -768
+      ],
+      "id": "59bc9e30-3092-42b2-8684-3091fa63ddba",
+      "name": "Respond to Chat3"
+    },
+    {
+      "parameters": {
+        "message": "=Thank you, {{ $('Create a record').item.json.fields['User Name'] }}. \nAll our support agents are currently busy. \nWe’ve logged your issue and will contact you shortly.\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        -576
+      ],
+      "id": "8286a1c4-c5bc-4044-b817-9249a41b686a",
+      "name": "Respond to Chat4"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appXQC7Cxqzi5KgE8",
+          "mode": "list",
+          "cachedResultName": "Customer Issue Details",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblcIxS6wRJGn1n0U",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appXQC7Cxqzi5KgE8/tblcIxS6wRJGn1n0U"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Pending"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "User Name",
+              "displayName": "User Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "TicketId",
+              "displayName": "TicketId",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "CreatedAt",
+              "displayName": "CreatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "User Email",
+              "displayName": "User Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Issue Description",
+              "displayName": "Issue Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Open",
+                  "value": "Open"
+                },
+                {
+                  "name": "Close",
+                  "value": "Close"
+                },
+                {
+                  "name": "Pending",
+                  "value": "Pending"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1696,
+        -576
+      ],
+      "id": "be29a780-c988-4c08-bac6-fb84ea4db713",
+      "name": "Update record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8uS9fUayxQTC74bB",
+          "name": "Airtable Personal Access Token account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0876f365-cb5e-4567-b2f5-132062d52ff4",
+              "name": "fields.TicketId",
+              "value": "={{ $json.fields.TicketId }}",
+              "type": "string"
+            },
+            {
+              "id": "d8ad3d9a-21a4-4264-8ce5-b6f593c62d21",
+              "name": "fields.Status",
+              "value": "={{ $json.fields.Status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        -672
+      ],
+      "id": "dd899719-93b2-4d6d-bdcb-349b000cc6cb",
+      "name": "Edit Fields4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Chat": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Chat1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Chat2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Chat4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Chat3": {
+      "main": [
+        []
+      ]
+    },
+    "Respond to Chat4": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0cb4ef01-6aac-4691-82de-f203fcae718f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6b1d67482e926a02d3b225eb591590103cc2c884d6b5cd9a076ded9e8e7ab0f3"
+  },
+  "id": "ZE7nEj5ISr8917LY",
+  "tags": []
+}

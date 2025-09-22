@@ -460,7 +460,7 @@
     },
     {
       "parameters": {
-        "sendTo": "=meghnaghatak2294@gmail.com",
+        "sendTo": "=dummygmail@gmail.com",
         "subject": "New Support Ticket Assigned",
         "emailType": "text",
         "message": "=Hello Agent1,  A new ticket has been assigned to you.  \nTicket ID: {{ $('Create a record').item.json.fields.TicketId }}\nUser: {{ $('Create a record').item.json.fields['User Name'] }}\nEmail: {{ $('Create a record').item.json.fields['User Email'] }}\nIssue: {{ $('Create a record').item.json.fields['Issue Description'] }}",
